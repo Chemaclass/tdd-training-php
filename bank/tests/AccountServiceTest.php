@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace KataBank\Tests;
 
 use KataBank\AccountService;
-use KataBank\ConsoleInterface;
+use KataBank\Clock;
+use KataBank\Console;
 use KataBank\InMemoryTransactionRepository;
 use KataBank\LinesGenerator;
 use PHPUnit\Framework\TestCase;
@@ -24,26 +25,31 @@ final class AccountServiceTest extends TestCase
 //        13/01/2012 || 2000.00  ||          || 3000.00
 //        10/01/2012 || 1000.00  ||          || 1000.00
 
-        $console = $this->createMock(ConsoleInterface::class);
-        $console->method('printLine')->withConsecutive(
-            ['date, credit, debit, balance'],
-            ['14/01/2012, , 500, 2500'],
-            ['13/01/2012, 2000, , 3000'],
-            ['10/01/2012, 1000, , 1000'],
-        );
+        $clock = new Clock();
 
         $accountService = new AccountService(
-            $console,
+            $clock,
+            new Console(),
             new InMemoryTransactionRepository(),
             new LinesGenerator()
         );
 
+        $clock->setCurrentDate('10/01/2012');
         $accountService->deposit(1000);
+        $clock->setCurrentDate('13/01/2012');
         $accountService->deposit(2000);
+        $clock->setCurrentDate('14/01/2012');
         $accountService->withdraw(500);
 
         $accountService->printStatements();
 
+        $this->expectOutputString(<<<OUT
+date, credit, debit, balance
+14/01/2012, , 500, 2500
+13/01/2012, 2000, , 3000
+10/01/2012, 1000, , 1000
 
+OUT
+        );
     }
 }

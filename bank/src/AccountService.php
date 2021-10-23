@@ -6,15 +6,18 @@ namespace KataBank;
 
 final class AccountService
 {
+    private ClockInterface $clock;
     private ConsoleInterface $console;
     private TransactionRepositoryInterface $transactionRepository;
     private LinesGeneratorInterface $linesGenerator;
 
     public function __construct(
+        ClockInterface                $clock,
         ConsoleInterface              $console,
         InMemoryTransactionRepository $lines,
-        LinesGeneratorInterface $statementsPrinter
+        LinesGeneratorInterface       $statementsPrinter
     ) {
+        $this->clock = $clock;
         $this->console = $console;
         $this->transactionRepository = $lines;
         $this->linesGenerator = $statementsPrinter;
@@ -26,7 +29,7 @@ final class AccountService
     public function deposit(int $amount): void
     {
         $this->transactionRepository->add(
-            Transaction::deposit('12/12/1221', $amount)
+            Transaction::deposit($this->clock->currentDate(), $amount)
         );
     }
 
@@ -36,7 +39,7 @@ final class AccountService
     public function withdraw(int $amount): void
     {
         $this->transactionRepository->add(
-            Transaction::withdraw('12/12/1221', $amount)
+            Transaction::withdraw($this->clock->currentDate(), $amount)
         );
     }
 
