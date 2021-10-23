@@ -16,7 +16,7 @@ You cannot change the signature of the public interface (the class AccountServic
 ## Code
 
 ```php
-final class AccountService 
+final class AccountService
 {
   public function deposit(int $amount): void {}
 

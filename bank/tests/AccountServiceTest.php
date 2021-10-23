@@ -4,12 +4,46 @@ declare(strict_types=1);
 
 namespace KataBank\Tests;
 
+use KataBank\AccountService;
+use KataBank\ConsoleInterface;
+use KataBank\InMemoryTransactionRepository;
+use KataBank\LinesGenerator;
 use PHPUnit\Framework\TestCase;
 
 final class AccountServiceTest extends TestCase
 {
-    public function test_nothing(): void
+    public function test_service(): void
     {
-        self::assertEquals(1, 1);
+//        Given a client makes a deposit of 1000 on 10-01-2012
+//        And a deposit of 2000 on 13-01-2012
+//        And a withdrawal of 500 on 14-01-2012
+//        When she prints her bank statement
+//        Then she would see
+//        date       || credit   || debit    || balance
+//        14/01/2012 ||          || 500.00   || 2500.00
+//        13/01/2012 || 2000.00  ||          || 3000.00
+//        10/01/2012 || 1000.00  ||          || 1000.00
+
+        $console = $this->createMock(ConsoleInterface::class);
+        $console->method('printLine')->withConsecutive(
+            ['date, credit, debit, balance'],
+            ['14/01/2012, , 500, 2500'],
+            ['13/01/2012, 2000, , 3000'],
+            ['10/01/2012, 1000, , 1000'],
+        );
+
+        $accountService = new AccountService(
+            $console,
+            new InMemoryTransactionRepository(),
+            new LinesGenerator()
+        );
+
+        $accountService->deposit(1000);
+        $accountService->deposit(2000);
+        $accountService->withdraw(500);
+
+        $accountService->printStatements();
+
+
     }
 }
