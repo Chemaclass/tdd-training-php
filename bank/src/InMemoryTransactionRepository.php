@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace KataBank;
 
+use KataBank\Transaction\TransactionInterface;
+
 final class InMemoryTransactionRepository implements TransactionRepositoryInterface
 {
     /**
-     * @var list<Transaction>
+     * @var list<TransactionInterface>
      */
     private array $transactions = [];
 
-    public function add(Transaction $transaction): void
+    public function add(TransactionInterface $transaction): void
     {
         $this->transactions[] = $transaction;
     }
 
     /**
-     * @return list<Transaction>
+     * @return list<TransactionInterface>
      */
     public function getAll(): array
     {

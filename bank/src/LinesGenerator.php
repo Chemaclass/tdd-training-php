@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace KataBank;
 
+use KataBank\Transaction\TransactionInterface;
+
 final class LinesGenerator implements LinesGeneratorInterface
 {
     /**
-     * @param list<Transaction> $transactions
+     * @param list<TransactionInterface> $transactions
      *
      * @return list<string>
      */

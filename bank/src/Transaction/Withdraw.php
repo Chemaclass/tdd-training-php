@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace KataBank;
+namespace KataBank\Transaction;
 
-final class Transaction
+final class Withdraw implements TransactionInterface
 {
     private string $date;
     private int $amount;
@@ -12,17 +12,7 @@ final class Transaction
     public function __construct(string $date, int $amount)
     {
         $this->date = $date;
-        $this->amount = $amount;
-    }
-
-    public static function deposit(string $date, int $amount): self
-    {
-        return new self($date, $amount);
-    }
-
-    public static function withdraw(string $date, int $amount): self
-    {
-        return new self($date, -$amount);
+        $this->amount = -$amount;
     }
 
     public function date(): string

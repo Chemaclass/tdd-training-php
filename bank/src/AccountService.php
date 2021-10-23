@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace KataBank;
 
+use KataBank\Transaction\Deposit;
+use KataBank\Transaction\Withdraw;
+
 final class AccountService
 {
     private ClockInterface $clock;
@@ -29,7 +32,7 @@ final class AccountService
     public function deposit(int $amount): void
     {
         $this->transactionRepository->add(
-            Transaction::deposit($this->clock->currentDate(), $amount)
+            new Deposit($this->clock->currentDate(), $amount)
         );
     }
 
@@ -39,7 +42,7 @@ final class AccountService
     public function withdraw(int $amount): void
     {
         $this->transactionRepository->add(
-            Transaction::withdraw($this->clock->currentDate(), $amount)
+            new Withdraw($this->clock->currentDate(), $amount)
         );
     }
 

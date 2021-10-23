@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace KataBank;
 
+use KataBank\Transaction\TransactionInterface;
+
 interface TransactionRepositoryInterface
 {
-    public function add(Transaction $param): void;
+    public function add(TransactionInterface $transaction): void;
 
     /**
-     * @return list<Transaction>
+     * @return list<TransactionInterface>
      */
     public function getAll(): array;
 }
