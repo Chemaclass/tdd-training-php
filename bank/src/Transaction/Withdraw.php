@@ -11,6 +11,7 @@ final class Withdraw implements TransactionInterface
 
     public function __construct(string $date, int $amount)
     {
+        assert($amount > 0);
         $this->date = $date;
         $this->amount = -$amount;
     }

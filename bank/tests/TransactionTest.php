@@ -17,6 +17,7 @@ final class TransactionTest extends TestCase
         self::assertEquals('2021-10-23', $t->date());
         self::assertEquals(100, $t->amount());
     }
+
     public function test_create_withdraw(): void
     {
         $t = new Withdraw('2021-10-23', 100);

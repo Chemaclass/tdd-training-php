@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace KataBank\Tests;
 
 use KataBank\LinesGenerator;
-use KataBank\Transaction;
 use KataBank\Transaction\Deposit;
 use KataBank\Transaction\Withdraw;
 use PHPUnit\Framework\TestCase;

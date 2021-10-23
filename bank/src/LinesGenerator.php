@@ -20,28 +20,43 @@ final class LinesGenerator implements LinesGeneratorInterface
 
         foreach ($transactions as $transaction) {
             $balance += $transaction->amount();
-            if ($transaction->amount() > 0) {
-                $line = sprintf(
-                    '%s, %s, %s, %s',
-                    $transaction->date(),
-                    $transaction->amount(),
-                    '',
-                    $balance
-                );
-            } else {
-                $line = sprintf(
-                    '%s, %s, %s, %s',
-                    $transaction->date(),
-                    '',
-                    abs($transaction->amount()),
-                    $balance
-                );
-            }
-            $lines[] = $line;
+
+            $lines[] = $this->generateLine($transaction, $balance);
         }
 
-        $lines[] =  'date, credit, debit, balance';
+        $lines[] = 'date, credit, debit, balance';
 
         return array_reverse($lines);
+    }
+
+    private function generateLine(TransactionInterface $transaction, int $balance): string
+    {
+        if ($transaction->amount() > 0) {
+            return $this->creditLine($transaction, $balance);
+        }
+
+        return $this->debitLine($transaction, $balance);
+    }
+
+    private function creditLine(TransactionInterface $transaction, int $balance): string
+    {
+        return sprintf(
+            '%s, %s, %s, %s',
+            $transaction->date(),
+            $transaction->amount(),
+            '',
+            $balance
+        );
+    }
+
+    private function debitLine(TransactionInterface $transaction, int $balance): string
+    {
+        return sprintf(
+            '%s, %s, %s, %s',
+            $transaction->date(),
+            '',
+            abs($transaction->amount()),
+            $balance
+        );
     }
 }
