@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KataBank\Tests;
+namespace KataBank\Tests\Unit;
 
 use KataBank\Transaction\Deposit;
 use KataBank\Transaction\Withdraw;

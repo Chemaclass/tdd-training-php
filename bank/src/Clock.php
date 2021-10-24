@@ -6,15 +6,8 @@ namespace KataBank;
 
 final class Clock implements ClockInterface
 {
-    private string $date;
-
     public function currentDate(): string
     {
-        return $this->date;
-    }
-
-    public function setCurrentDate(string $date): void
-    {
-        $this->date = $date;
+        return (new \DateTimeImmutable())->format('Y-m-s');
     }
 }

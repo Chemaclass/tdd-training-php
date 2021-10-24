@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KataBank\Tests;
+namespace KataBank\Tests\Unit;
 
 use KataBank\LinesGenerator;
 use KataBank\Transaction\Deposit;
